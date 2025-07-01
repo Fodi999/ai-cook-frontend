@@ -8,7 +8,8 @@ import { useT } from '../../hooks/useT';
 import Navigation from '../../components/Navigation';
 
 export default function Demo() {
-  const [apiUrl, setApiUrl] = useState('http://localhost:3002');
+  const DEFAULT_API_URL = process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') || 'https://itcook-backend-go-fodi999-8b0a955d.koyeb.app';
+  const [apiUrl, setApiUrl] = useState(DEFAULT_API_URL);
   const [isConnected, setIsConnected] = useState(false);
   const [authToken, setAuthToken] = useState('');
   const [loading, setLoading] = useState(false);
@@ -81,7 +82,8 @@ export default function Demo() {
   // WebSocket connection
   const connectWebSocket = () => {
     try {
-      const websocket = new WebSocket(`ws://localhost:3002/api/v1/realtime/ws`);
+      const wsUrl = apiUrl.replace('https://', 'wss://').replace('http://', 'ws://');
+      const websocket = new WebSocket(`${wsUrl}/api/v1/realtime/ws`);
       
       websocket.onopen = () => {
         setWsConnected(true);
@@ -231,7 +233,7 @@ export default function Demo() {
                       value={apiUrl}
                       onChange={(e) => setApiUrl(e.target.value)}
                       className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                      placeholder="http://localhost:3002"
+                      placeholder="https://itcook-backend-go-fodi999-8b0a955d.koyeb.app"
                     />
                   </div>
                   <button

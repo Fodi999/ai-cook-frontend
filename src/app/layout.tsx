@@ -26,6 +26,12 @@ export const metadata: Metadata = {
     maximumScale: 1,
     userScalable: false,
   },
+  icons: [
+    { rel: 'icon', url: '/favicon.svg', type: 'image/svg+xml' },
+    { rel: 'apple-touch-icon', url: '/icon-192x192.svg', sizes: '192x192' },
+    { rel: 'icon', url: '/icon-144x144.svg', sizes: '144x144' },
+    { rel: 'icon', url: '/icon-512x512.svg', sizes: '512x512' },
+  ],
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#ffffff' },
     { media: '(prefers-color-scheme: dark)', color: '#1f2937' },
