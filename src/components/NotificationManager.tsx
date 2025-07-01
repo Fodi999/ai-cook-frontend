@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Bell, BellOff, Settings } from 'lucide-react';
+import { safeLocalStorage } from '../lib/safeLocalStorage';
 
 interface NotificationSettings {
   enabled: boolean;
@@ -32,9 +33,9 @@ export default function NotificationManager() {
     }
 
     // Загружаем сохраненные настройки
-    const savedSettings = localStorage.getItem('notificationSettings');
+    const savedSettings = safeLocalStorage.getJSON('notificationSettings');
     if (savedSettings) {
-      setSettings(JSON.parse(savedSettings));
+      setSettings(savedSettings);
     }
   }, []);
 
@@ -76,7 +77,7 @@ export default function NotificationManager() {
           });
 
           setSettings(prev => ({ ...prev, enabled: true }));
-          localStorage.setItem('notificationSettings', JSON.stringify({ ...settings, enabled: true }));
+          safeLocalStorage.setJSON('notificationSettings', { ...settings, enabled: true });
         } catch (error) {
           console.log('Push subscription failed:', error);
         }
@@ -107,7 +108,7 @@ export default function NotificationManager() {
       }
 
       setSettings(prev => ({ ...prev, enabled: false }));
-      localStorage.setItem('notificationSettings', JSON.stringify({ ...settings, enabled: false }));
+      safeLocalStorage.setJSON('notificationSettings', { ...settings, enabled: false });
     } catch (error) {
       console.error('Error disabling notifications:', error);
     }
@@ -116,7 +117,7 @@ export default function NotificationManager() {
   const updateSetting = (key: keyof NotificationSettings, value: boolean) => {
     const newSettings = { ...settings, [key]: value };
     setSettings(newSettings);
-    localStorage.setItem('notificationSettings', JSON.stringify(newSettings));
+    safeLocalStorage.setJSON('notificationSettings', newSettings);
   };
 
   const sendTestNotification = () => {

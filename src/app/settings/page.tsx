@@ -23,6 +23,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/ca
 import { Switch } from '../../components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import toast, { Toaster } from 'react-hot-toast';
+import { safeLocalStorage } from '../../lib/safeLocalStorage';
 import NotificationManager from '../../components/NotificationManager';
 import { PWAFeatures } from '../../components/PWAInstallPrompt';
 
@@ -49,7 +50,7 @@ export default function SettingsPage() {
   });
 
   useEffect(() => {
-    const loggedIn = localStorage.getItem('user_logged_in');
+    const loggedIn = safeLocalStorage.getItem('user_logged_in');
     if (loggedIn !== 'true') {
       window.location.href = '/login';
     } else {
@@ -59,7 +60,7 @@ export default function SettingsPage() {
 
   const handleSaveSettings = () => {
     // Сохранение настроек в localStorage
-    localStorage.setItem('user_settings', JSON.stringify(settings));
+    safeLocalStorage.setJSON('user_settings', settings);
     toast.success('Настройки сохранены!');
   };
 

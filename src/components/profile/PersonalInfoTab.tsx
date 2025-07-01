@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronUp, Edit2, Check, X, MapPin, RefreshCw } from 'lucide-react';
 import { useT } from '../../hooks/useT';
+import { safeLocalStorage } from '../../lib/safeLocalStorage';
 
 import { UserData } from './types';
 
@@ -82,14 +83,13 @@ export default function PersonalInfoTab({
             };
 
             // Сохраняем в localStorage
-            const savedUserData = localStorage.getItem('user_data');
+            const savedUserData = safeLocalStorage.getJSON('user_data');
             if (savedUserData) {
-              const parsedUserData = JSON.parse(savedUserData);
-              parsedUserData.context = {
-                ...parsedUserData.context,
+              savedUserData.context = {
+                ...savedUserData.context,
                 location: locationData
               };
-              localStorage.setItem('user_data', JSON.stringify(parsedUserData));
+              safeLocalStorage.setJSON('user_data', savedUserData);
             }
 
             // Обновляем состояние компонента

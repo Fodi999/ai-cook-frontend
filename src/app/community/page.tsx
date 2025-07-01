@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Navigation from '@/components/Navigation';
 import toast, { Toaster } from 'react-hot-toast';
+import { safeLocalStorage } from '@/lib/safeLocalStorage';
 
 export default function Community() {
   const [selectedTab, setSelectedTab] = useState('feed');
@@ -85,12 +86,12 @@ export default function Community() {
 
   // Проверка авторизации
   useEffect(() => {
-    const loggedIn = localStorage.getItem('user_logged_in');
-    const savedUserData = localStorage.getItem('user_data');
+    const loggedIn = safeLocalStorage.getItem('user_logged_in');
+    const savedUserData = safeLocalStorage.getJSON('user_data');
     
     if (loggedIn === 'true' && savedUserData) {
       setIsLoggedIn(true);
-      setUserData(JSON.parse(savedUserData));
+      setUserData(savedUserData);
     }
   }, []);
 

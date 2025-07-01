@@ -20,6 +20,7 @@ import {
 import { Button } from '../../components/ui/button';
 import Navigation from '../../components/Navigation';
 import { useT } from '../../hooks/useT';
+import { safeLocalStorage } from '../../lib/safeLocalStorage';
 
 export default function Onboarding() {
   const t = useT();
@@ -350,11 +351,10 @@ export default function Onboarding() {
       setCurrentStep(currentStep + 1);
     } else {
       // Завершить онбординг и обновить данные пользователя
-      const existingUserData = localStorage.getItem('user_data');
+      const existingUserData = safeLocalStorage.getJSON('user_data');
       if (existingUserData) {
-        const parsedUserData = JSON.parse(existingUserData);
         const updatedUserData = {
-          ...parsedUserData,
+          ...existingUserData,
           // Добавляем данные из онбординга
           height: userData.height ? parseFloat(userData.height) : undefined,
           weight: userData.weight ? parseFloat(userData.weight) : undefined,
@@ -374,10 +374,10 @@ export default function Onboarding() {
         };
         
         console.log('Onboarding: Updating user data with context', updatedUserData);
-        localStorage.setItem('user_data', JSON.stringify(updatedUserData));
+        safeLocalStorage.setJSON('user_data', updatedUserData);
       }
       
-      localStorage.setItem('onboarding_completed', 'true');
+      safeLocalStorage.setItem('onboarding_completed', 'true');
       window.location.href = '/';
     }
   };

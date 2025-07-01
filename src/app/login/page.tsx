@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { safeLocalStorage } from '@/lib/safeLocalStorage';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -41,8 +42,8 @@ export default function Login() {
       const data = await response.json();
       
       // Сохраняем токен и данные пользователя
-      localStorage.setItem('token', data.access_token);
-      localStorage.setItem('user_data', JSON.stringify(data.user));
+      safeLocalStorage.setItem('token', data.access_token);
+      safeLocalStorage.setJSON('user_data', data.user);
       
       toast.success('Добро пожаловать в IT Cook!');
       // Перенаправляем в профиль

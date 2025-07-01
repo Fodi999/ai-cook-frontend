@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import { useT } from '@/hooks/useT';
+import { safeLocalStorage } from '@/lib/safeLocalStorage';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -18,13 +19,13 @@ export default function Home() {
 
   // Проверка авторизации
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = safeLocalStorage.getItem('token');
     
     if (token) {
       setIsLoggedIn(true);
-      const savedUserData = localStorage.getItem('user_data');
+      const savedUserData = safeLocalStorage.getJSON('user_data');
       if (savedUserData) {
-        setUserData(JSON.parse(savedUserData));
+        setUserData(savedUserData);
       }
     }
   }, []);
@@ -418,7 +419,7 @@ export default function Home() {
                 transition={{ duration: 0.3, delay: 0.1 }}
               >
                 <Card className="hover:shadow-lg transition-shadow cursor-pointer group">
-                  <a href="/profile" onClick={() => localStorage.setItem('profile_tab', 'ai')}>
+                  <a href="/profile" onClick={() => safeLocalStorage.setItem('profile_tab', 'ai')}>
                     <CardContent className="p-6 text-center">
                       <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                         <Bot className="h-8 w-8 text-white" />

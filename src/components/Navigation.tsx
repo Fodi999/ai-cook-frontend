@@ -20,6 +20,7 @@ import { Button } from './ui/button';
 import LanguageSwitcher from './LanguageSwitcher';
 import ThemeToggle from './ThemeToggle';
 import { useT } from '../hooks/useT';
+import { safeLocalStorage } from '../lib/safeLocalStorage';
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -78,9 +79,9 @@ export default function Navigation() {
     if (token) {
       setIsLoggedIn(true);
       // Получаем данные пользователя из localStorage или API
-      const savedUserData = localStorage.getItem('user_data');
+      const savedUserData = safeLocalStorage.getJSON('user_data');
       if (savedUserData) {
-        setUserData(JSON.parse(savedUserData));
+        setUserData(savedUserData);
       }
     }
   }, []);

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ChefHat, Eye, EyeOff, ArrowLeft, Mail, Lock, User, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
+import { safeLocalStorage } from '@/lib/safeLocalStorage';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -81,9 +82,9 @@ export default function Register() {
       console.log('User data to save:', data.user);
       
       // Сохраняем токен и данные пользователя
-      localStorage.setItem('token', data.access_token);
-      localStorage.setItem('user_data', JSON.stringify(data.user));
-      localStorage.setItem('user_logged_in', 'true'); // Добавляем флаг авторизации
+      safeLocalStorage.setItem('token', data.access_token);
+      safeLocalStorage.setJSON('user_data', data.user);
+      safeLocalStorage.setItem('user_logged_in', 'true'); // Добавляем флаг авторизации
       
       toast.success('Аккаунт успешно создан! Добро пожаловать в IT Cook!');
       // Перенаправляем на онбординг для новых пользователей

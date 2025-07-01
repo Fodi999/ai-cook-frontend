@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
+import { safeLocalStorage } from '../lib/safeLocalStorage';
 
 type Theme = 'light' | 'dark';
 
@@ -16,7 +17,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Проверяем сохраненную тему или системные настройки
-    const savedTheme = localStorage.getItem('theme') as Theme;
+    const savedTheme = safeLocalStorage.getItem('theme') as Theme;
     const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     const initialTheme = savedTheme || systemTheme;
     
@@ -31,7 +32,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     } else {
       root.classList.remove('dark');
     }
-    localStorage.setItem('theme', newTheme);
+    safeLocalStorage.setItem('theme', newTheme);
   };
 
   const toggleTheme = () => {

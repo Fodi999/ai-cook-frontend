@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { UserData, AiMessage, AiCard } from './types';
 import { APIClient } from '../../lib/api';
+import { safeLocalStorage } from '../../lib/safeLocalStorage';
 
 // Вспомогательная функция для текста уровня активности
 const getActivityLevelText = (level: string) => {
@@ -82,14 +83,14 @@ export function useProfile() {
   const [animatedParts, setAnimatedParts] = useState<{[messageId: number]: string[]}>({}); 
   // Проверка авторизации и загрузка данных пользователя
   useEffect(() => {
-    const loggedIn = localStorage.getItem('user_logged_in');
-    const savedUserData = localStorage.getItem('user_data');
+    const loggedIn = safeLocalStorage.getItem('user_logged_in');
+    const savedUserData = safeLocalStorage.getJSON('user_data');
     
     console.log('useProfile: Checking auth status', { loggedIn, savedUserData });
     
     if (loggedIn === 'true' && savedUserData) {
       setIsLoggedIn(true);
-      const parsedUserData = JSON.parse(savedUserData);
+      const parsedUserData = savedUserData;
       
       console.log('useProfile: Parsed user data', parsedUserData);
       
@@ -188,10 +189,10 @@ export function useProfile() {
       }
 
       // Проверяем, нужно ли открыть определённый таб
-      const profileTab = localStorage.getItem('profile_tab');
+      const profileTab = safeLocalStorage.getItem('profile_tab');
       if (profileTab) {
         setActiveTab(profileTab);
-        localStorage.removeItem('profile_tab'); // Очищаем после использования
+        safeLocalStorage.removeItem('profile_tab'); // Очищаем после использования
       }
     } else {
       // Если пользователь не авторизован, перенаправляем на страницу входа
@@ -278,9 +279,9 @@ export function useProfile() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('user_logged_in');
-    localStorage.removeItem('user_data');
-    localStorage.removeItem('onboarding_completed');
+    safeLocalStorage.removeItem('user_logged_in');
+    safeLocalStorage.removeItem('user_data');
+    safeLocalStorage.removeItem('onboarding_completed');
     window.location.href = '/';
   };
 
@@ -825,7 +826,7 @@ export function useProfile() {
       const now = new Date();
       const context = {
         user_context: `Пользователь: ${userData.firstName} ${userData.lastName}. Цели: ${userData.nutritionGoals.dailyCalories} ккал/день. Активность: ${userData.activityLevel}. Параметры: ${userData.height}см, ${userData.weight}кг.`,
-        last_activity: localStorage.getItem('last_visit') || now.toISOString(),
+        last_activity: safeLocalStorage.getItem('last_visit') || now.toISOString(),
         current_time: now.toISOString()
       };
       
@@ -854,7 +855,7 @@ export function useProfile() {
       }
       
       // Сохраняем время последнего визита
-      localStorage.setItem('last_visit', now.toISOString());
+      safeLocalStorage.setItem('last_visit', now.toISOString());
       
     } catch (error) {
       console.log('Не удалось загрузить активное сообщение от ИИ:', error);
