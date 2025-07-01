@@ -1,0 +1,294 @@
+/* PWA Mobile Optimizations */
+@media (max-width: 768px) {
+  /* Увеличиваем области нажатия */
+  button, .btn, a[role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Улучшаем формы для мобильных */
+  input[type="text"],
+  input[type="email"], 
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  textarea,
+  select {
+    min-height: 44px;
+    font-size: 16px; /* Предотвращает зум на iOS */
+    padding: 12px 16px;
+    border-radius: 8px;
+  }
+
+  /* Оптимизируем модальные окна */
+  .modal, .dialog {
+    margin: 0;
+    min-height: 100vh;
+    border-radius: 0;
+  }
+
+  /* Улучшаем карточки */
+  .card {
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Увеличиваем отступы */
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  /* Оптимизируем списки */
+  .list-item {
+    padding: 16px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  .list-item:last-child {
+    border-bottom: none;
+  }
+
+  /* Улучшаем навигацию */
+  .nav-item {
+    padding: 12px 16px;
+    font-size: 16px;
+  }
+
+  /* Скрываем элементы не подходящие для мобильных */
+  .desktop-only {
+    display: none !important;
+  }
+
+  /* Оптимизируем таблицы */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table-responsive table {
+    min-width: 600px;
+  }
+
+  /* Улучшаем grid layout */
+  .grid-responsive {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .grid-2-col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Sticky headers */
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  /* Safe area для iPhone */
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  /* Pull to refresh индикатор */
+  .pull-to-refresh {
+    overscroll-behavior: contain;
+  }
+
+  /* Smooth scrolling */
+  .scroll-smooth {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Оптимизируем анимации для производительности */
+  .animate-fast {
+    animation-duration: 0.2s;
+  }
+
+  /* Floating Action Button */
+  .fab {
+    position: fixed;
+    bottom: 80px; /* Над нижней навигацией */
+    right: 16px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 40;
+  }
+
+  /* Swipe gestures */
+  .swipeable {
+    touch-action: pan-x;
+  }
+
+  /* Оптимизируем изображения */
+  .image-responsive {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: cover;
+  }
+
+  /* Мобильные уведомления */
+  .notification-mobile {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    z-index: 50;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Полноэкранные секции */
+  .fullscreen-section {
+    min-height: calc(100vh - 64px); /* Учитываем нижнюю навигацию */
+  }
+
+  /* Мобильная типографика */
+  .text-mobile-sm { font-size: 14px; }
+  .text-mobile-base { font-size: 16px; }
+  .text-mobile-lg { font-size: 18px; }
+  .text-mobile-xl { font-size: 20px; }
+  .text-mobile-2xl { font-size: 24px; }
+
+  /* Компактная навигация */
+  .nav-compact .nav-item {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  /* Мобильные табы */
+  .tabs-mobile {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .tabs-mobile::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tabs-mobile .tab {
+    flex-shrink: 0;
+    min-width: max-content;
+    padding: 12px 16px;
+  }
+
+  /* Мобильные фильтры */
+  .filters-mobile {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: white;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e5e7eb;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Backdrop для модальных окон */
+  .modal-backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+
+  /* Свайпы для карточек */
+  .card-swipeable {
+    transform: translateX(var(--swipe-x, 0));
+    transition: transform 0.2s ease-out;
+  }
+
+  /* Индикаторы загрузки */
+  .loading-skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+  }
+
+  @keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Оптимизируем для Dark Mode */
+  @media (prefers-color-scheme: dark) {
+    .loading-skeleton {
+      background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+      background-size: 200% 100%;
+    }
+
+    .modal-backdrop {
+      background: rgba(0, 0, 0, 0.8);
+    }
+  }
+}
+
+/* Landscape режим для мобильных */
+@media (max-width: 768px) and (orientation: landscape) {
+  .landscape-hide {
+    display: none;
+  }
+
+  .fullscreen-section {
+    min-height: 100vh;
+  }
+
+  .fab {
+    bottom: 16px;
+    right: 16px;
+  }
+}
+
+/* Очень маленькие экраны */
+@media (max-width: 375px) {
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .text-mobile-sm { font-size: 12px; }
+  .text-mobile-base { font-size: 14px; }
+  .text-mobile-lg { font-size: 16px; }
+
+  .grid-2-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Большие мобильные экраны */
+@media (min-width: 375px) and (max-width: 768px) {
+  .grid-responsive {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+
+/* PWA специфичные стили */
+@media (display-mode: standalone) {
+  /* Скрываем элементы браузера в PWA режиме */
+  .pwa-hide {
+    display: none;
+  }
+
+  /* Показываем PWA специфичные элементы */
+  .pwa-only {
+    display: block;
+  }
+
+  /* Учитываем статус бар в PWA */
+  .pwa-container {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

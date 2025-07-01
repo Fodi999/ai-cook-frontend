@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест формы холодильника</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select, textarea { 
+            width: 100%; 
+            padding: 8px; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+            box-sizing: border-box;
+        }
+        button { 
+            background-color: #007bff; 
+            color: white; 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+        }
+        button:hover { background-color: #0056b3; }
+        .response { 
+            margin-top: 20px; 
+            padding: 10px; 
+            border-radius: 4px; 
+            background-color: #f8f9fa; 
+        }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .success { background-color: #d4edda; color: #155724; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Тест формы добавления продукта в холодильник</h1>
+        
+        <form id="fridgeForm">
+            <div class="form-group">
+                <label for="name">Название *</label>
+                <input type="text" id="name" name="name" required placeholder="Молоко, хлеб, курица...">
+            </div>
+            
+            <div class="form-group">
+                <label for="brand">Бренд</label>
+                <input type="text" id="brand" name="brand" placeholder="Данон, Простоквашино...">
+            </div>
+            
+            <div class="form-group">
+                <label for="quantity">Количество *</label>
+                <input type="number" id="quantity" name="quantity" required min="0.1" step="0.1" value="1">
+            </div>
+            
+            <div class="form-group">
+                <label for="unit">Единица измерения *</label>
+                <select id="unit" name="unit" required>
+                    <option value="шт">штуки (шт)</option>
+                    <option value="г">граммы (г)</option>
+                    <option value="кг">килограммы (кг)</option>
+                    <option value="мл">миллилитры (мл)</option>
+                    <option value="л">литры (л)</option>
+                    <option value="упак">упаковка (упак)</option>
+                    <option value="буханка">буханка</option>
+                    <option value="пучок">пучок</option>
+                    <option value="долька">долька</option>
+                    <option value="ломтик">ломтик</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="category">Категория *</label>
+                <select id="category" name="category" required>
+                    <option value="">Выберите категорию</option>
+                    <option value="Dairy">Молочные продукты</option>
+                    <option value="Meat">Мясо</option>
+                    <option value="Fish">Рыба</option>
+                    <option value="Vegetables">Овощи</option>
+                    <option value="Fruits">Фрукты</option>
+                    <option value="Grains">Крупы</option>
+                    <option value="Beverages">Напитки</option>
+                    <option value="Condiments">Приправы</option>
+                    <option value="Snacks">Снеки</option>
+                    <option value="Other">Другое</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="price_per_unit">Цена за единицу (₽)</label>
+                <input type="number" id="price_per_unit" name="price_per_unit" min="0" step="0.01" placeholder="Цена за кг/л/шт">
+            </div>
+            
+            <div class="form-group">
+                <label for="total_price">Общая стоимость (₽)</label>
+                <input type="number" id="total_price" name="total_price" min="0" step="0.01" placeholder="Общая сумма покупки">
+            </div>
+            
+            <div class="form-group">
+                <label for="purchase_date">Дата покупки</label>
+                <input type="date" id="purchase_date" name="purchase_date">
+            </div>
+            
+            <div class="form-group">
+                <label for="expiry_date">Срок годности</label>
+                <input type="date" id="expiry_date" name="expiry_date">
+            </div>
+            
+            <div class="form-group">
+                <label for="location">Место хранения</label>
+                <select id="location" name="location">
+                    <option value="Холодильник">Холодильник</option>
+                    <option value="Морозильник">Морозильник</option>
+                    <option value="Кладовая">Кладовая</option>
+                    <option value="Кухонная полка">Кухонная полка</option>
+                    <option value="Столешница">Столешница</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="ingredients">Состав</label>
+                <textarea id="ingredients" name="ingredients" rows="2" placeholder="Молоко, сахар, закваска..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="nutritional_info">Пищевая ценность</label>
+                <textarea id="nutritional_info" name="nutritional_info" rows="2" placeholder="Калории: 60 ккал, Белки: 3г, Жиры: 3.2г..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="notes">Заметки</label>
+                <textarea id="notes" name="notes" rows="2" placeholder="Дополнительные заметки..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="contains_allergens">Аллергены (через запятую)</label>
+                <input type="text" id="contains_allergens" name="contains_allergens" placeholder="Глютен, лактоза, орехи">
+            </div>
+            
+            <div class="form-group">
+                <label for="suitable_for_diets">Подходящие диеты (через запятую)</label>
+                <input type="text" id="suitable_for_diets" name="suitable_for_diets" placeholder="Веган, кето, безглютеновая">
+            </div>
+            
+            <button type="submit">Добавить продукт</button>
+        </form>
+        
+        <div id="response" class="response" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Установим токен (замените на ваш актуальный токен)
+        const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMWUwZjkwMi05ODI0LTQ2MDQtYjY1ZS1iMDE2MTAyNmQwYTgiLCJlbWFpbCI6ImZyaWRnZXRlc3QzQGV4YW1wbGUuY29tIiwiZmlyc3RfbmFtZSI6IkZyaWRnZSIsImxhc3RfbmFtZSI6IlRlc3QzIiwicm9sZSI6IlVzZXIiLCJleHAiOjE3NTEzODc4MjUsImlhdCI6MTc1MTM4NDIyNX0.eztkIDeWpQTbbz9jeIznu0aMda8ePit2OJQNlnRLnQQ";
+        
+        document.getElementById('fridgeForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const responseDiv = document.getElementById('response');
+            responseDiv.style.display = 'none';
+            
+            // Собираем данные формы
+            const formData = new FormData(this);
+            const data = {};
+            
+            for (let [key, value] of formData.entries()) {
+                if (value.trim() === '') continue;
+                
+                if (key === 'quantity' || key === 'price_per_unit' || key === 'total_price') {
+                    data[key] = parseFloat(value);
+                } else if (key === 'contains_allergens' || key === 'suitable_for_diets') {
+                    data[key] = value.split(',').map(s => s.trim()).filter(s => s);
+                } else {
+                    data[key] = value;
+                }
+            }
+            
+            console.log('Отправляем данные:', data);
+            
+            try {
+                const response = await fetch('http://localhost:3002/api/v1/fridge/items', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${TOKEN}`
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.text();
+                
+                if (response.ok) {
+                    responseDiv.className = 'response success';
+                    responseDiv.innerHTML = `<strong>Успех!</strong><br><pre>${result}</pre>`;
+                } else {
+                    responseDiv.className = 'response error';
+                    responseDiv.innerHTML = `<strong>Ошибка (${response.status}):</strong><br><pre>${result}</pre>`;
+                }
+                
+                responseDiv.style.display = 'block';
+                
+            } catch (error) {
+                responseDiv.className = 'response error';
+                responseDiv.innerHTML = `<strong>Ошибка сети:</strong><br>${error.message}`;
+                responseDiv.style.display = 'block';
+            }
+        });
+        
+        // Установим дату покупки на сегодня по умолчанию
+        document.getElementById('purchase_date').value = new Date().toISOString().split('T')[0];
+        
+        // Установим срок годности на неделю вперед по умолчанию
+        const expiryDate = new Date();
+        expiryDate.setDate(expiryDate.getDate() + 7);
+        document.getElementById('expiry_date').value = expiryDate.toISOString().split('T')[0];
+    </script>
+</body>
+</html>

@@ -23,6 +23,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/ca
 import { Switch } from '../../components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import toast, { Toaster } from 'react-hot-toast';
+import NotificationManager from '../../components/NotificationManager';
+import { PWAFeatures } from '../../components/PWAInstallPrompt';
 
 export default function SettingsPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -136,50 +138,27 @@ export default function SettingsPage() {
                     <span>Уведомления</span>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="font-medium text-gray-900 dark:text-white">Email уведомления</h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">Получать уведомления на почту</p>
-                    </div>
-                    <Switch
-                      checked={settings.notifications.email}
-                      onCheckedChange={(value) => updateSettings('notifications', 'email', value)}
-                    />
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="font-medium text-gray-900 dark:text-white">Push уведомления</h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">Уведомления в браузере</p>
-                    </div>
-                    <Switch
-                      checked={settings.notifications.push}
-                      onCheckedChange={(value) => updateSettings('notifications', 'push', value)}
-                    />
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="font-medium text-gray-900 dark:text-white">Новые рецепты</h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">Уведомления о рекомендованных рецептах</p>
-                    </div>
-                    <Switch
-                      checked={settings.notifications.recipes}
-                      onCheckedChange={(value) => updateSettings('notifications', 'recipes', value)}
-                    />
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="font-medium text-gray-900 dark:text-white">Активность сообщества</h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">Лайки, комментарии, новые подписчики</p>
-                    </div>
-                    <Switch
-                      checked={settings.notifications.community}
-                      onCheckedChange={(value) => updateSettings('notifications', 'community', value)}
-                    />
-                  </div>
+                <CardContent>
+                  <NotificationManager />
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* PWA Функции */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.05 }}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Smartphone className="h-5 w-5" />
+                    <span>Мобильное приложение</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <PWAFeatures />
                 </CardContent>
               </Card>
             </motion.div>

@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 import Navigation from '../../components/Navigation';
+import MobileNavigation from '../../components/MobileNavigation';
+import BottomNavigation from '../../components/BottomNavigation';
 import {
   ProfileHeader,
   QuickActions,
@@ -10,7 +12,7 @@ import {
   PersonalInfoTab,
   NutritionGoalsTab,
   AnalyticsTab,
-  FridgeTab,
+  FridgeTabResponsive,
   PostsTab,
   SettingsTab,
   PrivacyTab,
@@ -74,7 +76,7 @@ export default function Profile() {
       case 'analytics':
         return <AnalyticsTab />;
       case 'fridge':
-        return <FridgeTab />;
+        return <FridgeTabResponsive />;
       case 'posts':
         return <PostsTab />;
       case 'settings':
@@ -122,19 +124,98 @@ export default function Profile() {
 
   return (
     <ProfileErrorBoundary>
-      <Navigation />
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-        <ProfileHeader />
+      {/* Десктопная навигация */}
+      <div className="hidden md:block">
+        <Navigation />
+      </div>
+      
+      {/* Мобильная навигация */}
+      <div className="md:hidden bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between">
+        <div className="flex items-center space-x-3">
+          <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+            <span className="text-white font-bold text-sm">IC</span>
+          </div>
+          <h1 className="text-lg font-semibold text-gray-900 dark:text-white">IT Cook</h1>
+        </div>
+        <MobileNavigation />
+      </div>
+      
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20 md:pb-0">
+        {/* Десктопный заголовок */}
+        <div className="hidden md:block">
+          <ProfileHeader />
+        </div>
 
-        <QuickActions
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
+        {/* Мобильные быстрые действия */}
+        <div className="md:hidden">
+          <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-2">
+            <div className="flex space-x-2 overflow-x-auto scrollbar-hide">
+              <button
+                onClick={() => setActiveTab('profile')}
+                className={`px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap ${
+                  activeTab === 'profile'
+                    ? 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-400'
+                    : 'text-gray-600 dark:text-gray-400'
+                }`}
+              >
+                Профиль
+              </button>
+              <button
+                onClick={() => setActiveTab('fridge')}
+                className={`px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap ${
+                  activeTab === 'fridge'
+                    ? 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-400'
+                    : 'text-gray-600 dark:text-gray-400'
+                }`}
+              >
+                Холодильник
+              </button>
+              <button
+                onClick={() => setActiveTab('goals')}
+                className={`px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap ${
+                  activeTab === 'goals'
+                    ? 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-400'
+                    : 'text-gray-600 dark:text-gray-400'
+                }`}
+              >
+                Цели
+              </button>
+              <button
+                onClick={() => setActiveTab('analytics')}
+                className={`px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap ${
+                  activeTab === 'analytics'
+                    ? 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-400'
+                    : 'text-gray-600 dark:text-gray-400'
+                }`}
+              >
+                Аналитика
+              </button>
+              <button
+                onClick={() => setActiveTab('ai')}
+                className={`px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap ${
+                  activeTab === 'ai'
+                    ? 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-400'
+                    : 'text-gray-600 dark:text-gray-400'
+                }`}
+              >
+                ИИ помощник
+              </button>
+            </div>
+          </div>
+        </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Profile Card */}
-            <div className="lg:col-span-1">
+        {/* Десктопные быстрые действия */}
+        <div className="hidden md:block">
+          <QuickActions
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+          />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-8">
+            {/* Profile Card - скрыт на мобильных */}
+            <div className="lg:col-span-1 hidden lg:block">
               <ProfileCard
                 userData={userData}
                 isEditing={isEditing}
@@ -143,10 +224,13 @@ export default function Profile() {
 
             {/* Main Content */}
             <div className="lg:col-span-3">
-              <ProfileTabs
-                activeTab={activeTab}
-                onTabChange={setActiveTab}
-              />
+              {/* Десктопные табы */}
+              <div className="hidden md:block">
+                <ProfileTabs
+                  activeTab={activeTab}
+                  onTabChange={setActiveTab}
+                />
+              </div>
 
               {/* Tab Content */}
               <motion.div
@@ -154,6 +238,7 @@ export default function Profile() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
+                className="min-h-0"
               >
                 {renderTabContent()}
               </motion.div>
@@ -161,6 +246,9 @@ export default function Profile() {
           </div>
         </div>
       </div>
+      
+      {/* Мобильная нижняя навигация */}
+      <BottomNavigation />
     </ProfileErrorBoundary>
   );
 }

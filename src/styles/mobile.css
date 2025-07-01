@@ -1,0 +1,292 @@
+/* Мобильные CSS стили для IT Cook */
+
+/* Базовые стили для мобильных устройств */
+@media (max-width: 768px) {
+  /* Уменьшаем отступы на мобильных */
+  .mobile-padding {
+    padding: 0.75rem !important;
+  }
+  
+  /* Более компактные карточки */
+  .mobile-card {
+    padding: 0.5rem !important;
+  }
+  
+  /* Адаптивные размеры шрифтов */
+  .mobile-text-sm {
+    font-size: 0.875rem !important;
+  }
+  
+  .mobile-text-xs {
+    font-size: 0.75rem !important;
+  }
+  
+  /* Улучшенная кнопочная навигация */
+  .mobile-nav-button {
+    min-height: 44px !important;
+    font-size: 0.875rem !important;
+    padding: 0.5rem 1rem !important;
+  }
+  
+  /* Сетка для мобильных */
+  .mobile-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+  
+  /* Компактные иконки */
+  .mobile-icon {
+    width: 1rem !important;
+    height: 1rem !important;
+  }
+  
+  /* Адаптивные модальные окна */
+  .mobile-modal {
+    margin: 1rem !important;
+    max-height: 85vh !important;
+    overflow-y: auto !important;
+  }
+  
+  /* Улучшенные формы */
+  .mobile-form-input {
+    font-size: 1rem !important;
+    padding: 0.75rem !important;
+    border-radius: 0.5rem !important;
+  }
+  
+  /* Специальные стили для мобильного холодильника */
+  .fridge-mobile-overview {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .fridge-mobile-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .fridge-mobile-stat-card {
+    padding: 1rem;
+    border-radius: 0.75rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border: 1px solid #e2e8f0;
+    text-align: center;
+  }
+  
+  .fridge-mobile-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .fridge-mobile-category-chip {
+    padding: 0.375rem 0.75rem;
+    background: #3b82f6;
+    color: white;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .fridge-mobile-item-list {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  
+  .fridge-mobile-item {
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .fridge-mobile-item.expiring {
+    background: #fef3c7;
+    border-color: #f59e0b;
+  }
+  
+  .fridge-mobile-actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 1rem;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    gap: 0.75rem;
+  }
+  
+  .fridge-mobile-fab {
+    position: fixed;
+    bottom: 5rem;
+    right: 1rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  .mobile-form-input {
+    padding: 0.625rem !important;
+    font-size: 1rem !important; /* Предотвращает зум на iOS */
+  }
+  
+  /* Сенсорные цели */
+  .mobile-touch-target {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+  
+  /* Горизонтальная прокрутка */
+  .mobile-scroll-container {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  
+  .mobile-scroll-container::-webkit-scrollbar {
+    display: none !important;
+  }
+  
+  /* Безопасная область для устройств с вырезами */
+  .safe-area-padding {
+    padding-left: env(safe-area-inset-left) !important;
+    padding-right: env(safe-area-inset-right) !important;
+  }
+  
+  .safe-area-pb {
+    padding-bottom: calc(0.5rem + env(safe-area-inset-bottom)) !important;
+  }
+  
+  /* Улучшенные градиенты для мобильных */
+  .mobile-gradient {
+    background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%) !important;
+  }
+  
+  /* Компактные статистические карточки */
+  .mobile-stat-card .text-2xl {
+    font-size: 1.5rem !important;
+  }
+  
+  .mobile-stat-card .text-sm {
+    font-size: 0.75rem !important;
+  }
+  
+  /* Адаптивные списки продуктов */
+  .mobile-product-item {
+    padding: 0.75rem !important;
+    border-radius: 0.5rem !important;
+  }
+  
+  /* Улучшенные кнопки действий */
+  .mobile-action-button {
+    height: 2.5rem !important;
+    font-size: 0.875rem !important;
+  }
+  
+  /* Компактные бейджи */
+  .mobile-badge {
+    font-size: 0.625rem !important;
+    padding: 0.125rem 0.375rem !important;
+  }
+}
+
+/* Стили для планшетов */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .tablet-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+  
+  .tablet-padding {
+    padding: 1rem !important;
+  }
+}
+
+/* Оптимизация для высоких экранов */
+@media (min-height: 800px) {
+  .tall-screen-spacing {
+    gap: 1.5rem !important;
+  }
+}
+
+/* Ландшафтная ориентация на мобильных */
+@media (max-width: 768px) and (orientation: landscape) {
+  .landscape-mobile {
+    height: 100vh !important;
+    overflow-y: auto !important;
+  }
+  
+  .landscape-mobile-nav {
+    height: 3rem !important;
+  }
+  
+  .landscape-mobile-content {
+    height: calc(100vh - 3rem) !important;
+    overflow-y: auto !important;
+  }
+}
+
+/* Dark mode оптимизации для мобильных */
+@media (max-width: 768px) and (prefers-color-scheme: dark) {
+  .mobile-dark-card {
+    background-color: rgb(31 41 55) !important;
+    border-color: rgb(55 65 81) !important;
+  }
+  
+  .mobile-dark-text {
+    color: rgb(229 231 235) !important;
+  }
+  
+  .mobile-dark-subtitle {
+    color: rgb(156 163 175) !important;
+  }
+}
+
+/* PWA полноэкранный режим */
+@media (display-mode: standalone) {
+  .pwa-fullscreen {
+    padding-top: env(safe-area-inset-top) !important;
+  }
+  
+  .pwa-bottom-nav {
+    padding-bottom: env(safe-area-inset-bottom) !important;
+  }
+}
+
+/* Уменьшение анимаций для пользователей с предпочтением */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-no-animation * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Высококонтрастный режим */
+@media (prefers-contrast: high) {
+  .mobile-high-contrast {
+    border-width: 2px !important;
+    border-color: currentColor !important;
+  }
+  
+  .mobile-high-contrast-button {
+    background-color: ButtonFace !important;
+    color: ButtonText !important;
+    border: 2px solid ButtonText !important;
+  }
+}
