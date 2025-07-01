@@ -7,7 +7,8 @@ import toast, { Toaster } from 'react-hot-toast';
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    username: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     confirmPassword: ''
@@ -53,16 +54,35 @@ export default function Register() {
     setLoading(true);
 
     try {
-      // Здесь будет интеграция с API
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Имитация запроса
+      // Отправляем запрос на бекенд
+      const response = await fetch('http://localhost:3002/api/v1/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Ошибка регистрации');
+      }
+
+      const data = await response.json();
       
-      // Сохраняем информацию о новом пользователе
-      localStorage.setItem('user_logged_in', 'true');
-      localStorage.setItem('user_data', JSON.stringify({
-        email: formData.email,
-        name: formData.username,
-        id: 'user_' + Date.now()
-      }));
+      // Логируем полученные данные для отладки
+      console.log('Registration response:', data);
+      console.log('User data to save:', data.user);
+      
+      // Сохраняем токен и данные пользователя
+      localStorage.setItem('token', data.access_token);
+      localStorage.setItem('user_data', JSON.stringify(data.user));
+      localStorage.setItem('user_logged_in', 'true'); // Добавляем флаг авторизации
       
       toast.success('Аккаунт успешно создан! Добро пожаловать в IT Cook!');
       // Перенаправляем на онбординг для новых пользователей
@@ -113,22 +133,42 @@ export default function Register() {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Username */}
+            {/* First Name */}
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Имя пользователя
+              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Имя
               </label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                 <input
-                  id="username"
-                  name="username"
+                  id="firstName"
+                  name="firstName"
                   type="text"
                   required
-                  value={formData.username}
+                  value={formData.firstName}
                   onChange={handleChange}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:border-orange-500 focus:ring-4 focus:ring-orange-200 dark:focus:ring-orange-800 transition-all"
-                  placeholder="chef_name"
+                  placeholder="Ваше имя"
+                />
+              </div>
+            </div>
+
+            {/* Last Name */}
+            <div>
+              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Фамилия
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  required
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:border-orange-500 focus:ring-4 focus:ring-orange-200 dark:focus:ring-orange-800 transition-all"
+                  placeholder="Ваша фамилия"
                 />
               </div>
             </div>

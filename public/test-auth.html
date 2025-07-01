@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тест авторизации</title>
+</head>
+<body>
+    <h1>Тест авторизации IT Cook</h1>
+    
+    <div>
+        <h2>Шаг 1: Установить токен</h2>
+        <button onclick="setToken()">Установить токен авторизации</button>
+        <p id="tokenStatus">Токен не установлен</p>
+    </div>
+    
+    <div>
+        <h2>Шаг 2: Перейти в профиль</h2>
+        <a href="/profile" target="_blank">Открыть профиль</a>
+    </div>
+    
+    <div>
+        <h2>Информация</h2>
+        <p>Токен: <code id="tokenValue">нет</code></p>
+        <p>API URL: <code>http://localhost:3002/api/v1</code></p>
+    </div>
+
+    <script>
+        function setToken() {
+            const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwNzk5YWQ5Mi00N2Q2LTRiOWEtOGQwMC00NjQ4MTBmMWY3ZjUiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJmaXJzdF9uYW1lIjoiVGVzdCIsImxhc3RfbmFtZSI6IlVzZXIiLCJyb2xlIjoiVXNlciIsImV4cCI6MTc1MTMxNzYxMSwiaWF0IjoxNzUxMzE0MDExfQ.MkDsTA8adbfSL01q8j8p7DsSv0HHvF9BxqOpCNu1jW8';
+            localStorage.setItem('token', token);
+            document.getElementById('tokenStatus').innerText = 'Токен установлен!';
+            document.getElementById('tokenValue').innerText = token.substring(0, 50) + '...';
+            console.log('🔑 Токен установлен в localStorage:', token);
+        }
+        
+        // Проверяем текущий токен при загрузке
+        window.onload = function() {
+            const currentToken = localStorage.getItem('token');
+            if (currentToken) {
+                document.getElementById('tokenStatus').innerText = 'Токен уже есть в localStorage';
+                document.getElementById('tokenValue').innerText = currentToken.substring(0, 50) + '...';
+            }
+        }
+    </script>
+</body>
+</html>

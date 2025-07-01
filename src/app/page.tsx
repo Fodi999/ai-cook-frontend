@@ -18,12 +18,14 @@ export default function Home() {
 
   // Проверка авторизации
   useEffect(() => {
-    const loggedIn = localStorage.getItem('user_logged_in');
-    const savedUserData = localStorage.getItem('user_data');
+    const token = localStorage.getItem('token');
     
-    if (loggedIn === 'true' && savedUserData) {
+    if (token) {
       setIsLoggedIn(true);
-      setUserData(JSON.parse(savedUserData));
+      const savedUserData = localStorage.getItem('user_data');
+      if (savedUserData) {
+        setUserData(JSON.parse(savedUserData));
+      }
     }
   }, []);
 

@@ -12,7 +12,8 @@ import {
   Users, 
   User,
   LogIn,
-  UserPlus
+  UserPlus,
+  LogOut
 } from 'lucide-react';
 import { Button } from './ui/button';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -25,6 +26,14 @@ export default function Navigation() {
   const [userData, setUserData] = useState<any>(null);
   const pathname = usePathname();
   const t = useT();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_data');
+    setIsLoggedIn(false);
+    setUserData(null);
+    window.location.href = '/';
+  };
 
   const navItems = [
     { href: '/', label: t('navigation.home'), icon: Home },
@@ -41,12 +50,15 @@ export default function Navigation() {
 
   // Проверка авторизации при загрузке компонента
   useEffect(() => {
-    const loggedIn = localStorage.getItem('user_logged_in');
-    const savedUserData = localStorage.getItem('user_data');
+    const token = localStorage.getItem('token');
     
-    if (loggedIn === 'true' && savedUserData) {
+    if (token) {
       setIsLoggedIn(true);
-      setUserData(JSON.parse(savedUserData));
+      // Получаем данные пользователя из localStorage или API
+      const savedUserData = localStorage.getItem('user_data');
+      if (savedUserData) {
+        setUserData(JSON.parse(savedUserData));
+      }
     }
   }, []);
 
@@ -106,9 +118,18 @@ export default function Navigation() {
                     }`}
                   >
                     <User className="h-4 w-4" />
-                    <span>{userData?.name || 'Профиль'}</span>
+                    <span>{userData?.username || userData?.name || 'Профиль'}</span>
                   </Button>
                 </Link>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 text-gray-600 hover:text-red-600"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span>Выйти</span>
+                </Button>
               </div>
             ) : (
               /* Для неавторизованных пользователей */

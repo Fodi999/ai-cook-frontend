@@ -20,16 +20,28 @@ export default function Login() {
     setLoading(true);
 
     try {
-      // Здесь будет интеграция с API
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Имитация запроса
+      // Отправляем запрос на бекенд
+      const response = await fetch('http://localhost:3002/api/v1/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Ошибка авторизации');
+      }
+
+      const data = await response.json();
       
-      // Сохраняем информацию о входе
-      localStorage.setItem('user_logged_in', 'true');
-      localStorage.setItem('user_data', JSON.stringify({
-        email: email,
-        name: 'Пользователь',
-        id: 'user_' + Date.now()
-      }));
+      // Сохраняем токен и данные пользователя
+      localStorage.setItem('token', data.access_token);
+      localStorage.setItem('user_data', JSON.stringify(data.user));
       
       toast.success('Добро пожаловать в IT Cook!');
       // Перенаправляем в профиль

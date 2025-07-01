@@ -1,8 +1,10 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# IT Cook - Frontend
 
-## Getting Started
+Фронтенд приложения IT Cook - кулинарная платформа с ИИ-помощником.
 
-First, run the development server:
+## 🚀 Быстрый старт
+
+### Запуск фронтенда
 
 ```bash
 npm run dev
@@ -14,23 +16,99 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Откройте [http://localhost:3000](http://localhost:3000) в браузере.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Запуск полного стека
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Запуск бекенда** (из корневой папки проекта):
+   ```bash
+   ./start-backend.sh
+   ```
+   Бекенд будет доступен на `http://localhost:3002`
 
-## Learn More
+2. **Запуск фронтенда** (из папки frontend):
+   ```bash
+   npm run dev
+   ```
+   Фронтенд будет доступен на `http://localhost:3000`
 
-To learn more about Next.js, take a look at the following resources:
+## 📁 Структура проекта
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Основные страницы
+- **/** - Главная страница
+- **/login** - Авторизация
+- **/register** - Регистрация
+- **/profile** - Профиль пользователя (модульная структура)
+- **/recipes** - Рецепты
+- **/community** - Сообщество
+- **/analytics** - Аналитика
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Модульная архитектура
 
-## Deploy on Vercel
+Страница профиля разделена на модульные компоненты с защитой от null/undefined:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+src/components/profile/
+├── ProfileHeader.tsx      # Заголовок с кнопками действий
+├── QuickActions.tsx       # Быстрые действия
+├── ProfileCard.tsx        # Карточка профиля (с loading состояниями)
+├── ProfileTabs.tsx        # Табы навигации
+├── PersonalInfoTab.tsx    # Личная информация (с проверками безопасности)
+├── NutritionGoalsTab.tsx  # Цели питания (с проверками безопасности)
+├── AnalyticsTab.tsx       # Аналитика
+├── FridgeTab.tsx          # Холодильник
+├── PostsTab.tsx           # Посты
+├── SettingsTab.tsx        # Настройки
+├── PrivacyTab.tsx         # Приватность
+├── AiAssistantTab.tsx     # ИИ-помощник
+├── types.ts               # TypeScript типы
+├── useProfile.ts          # Хук состояния
+└── index.ts               # Экспорты
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Безопасность и обработка ошибок
+
+- ✅ Проверки на `null/undefined` данных
+- ✅ Loading состояния для асинхронных операций
+- ✅ Fallback UI для отсутствующих данных
+- ✅ TypeScript типизация для предотвращения ошибок
+- ✅ Безопасное обращение к вложенным свойствам (`?.`)
+
+## 🛠 Технологии
+
+- **Next.js 15** - React фреймворк с Turbopack
+- **TypeScript** - Типизация
+- **Tailwind CSS** - Стилизация
+- **Framer Motion** - Анимации
+- **Lucide React** - Иконки
+- **i18n** - Интернационализация
+
+## 🔧 Конфигурация
+
+### Переменные окружения
+
+Создайте файл `.env.local`:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3002
+NEXT_PUBLIC_WS_URL=ws://localhost:3002
+```
+
+### API интеграция
+
+- **REST API**: `http://localhost:3002/api/v1`
+- **WebSocket**: `ws://localhost:3002/api/v1/realtime/ws`
+- **Health Check**: `http://localhost:3002/health`
+
+## 📚 Полезные ресурсы
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+- [Framer Motion](https://www.framer.com/motion/)
+- [TypeScript](https://www.typescriptlang.org/docs)
+
+## 🚀 Деплой
+
+Самый простой способ деплоя - использовать [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
+
+Подробнее в [документации Next.js](https://nextjs.org/docs/app/building-your-application/deploying).
