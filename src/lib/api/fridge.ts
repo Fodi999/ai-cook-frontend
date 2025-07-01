@@ -283,7 +283,7 @@ export const formatQuantity = (quantity: number, unit: string): string => {
   return `${quantity} ${unit}`;
 };
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002/api/v1';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
 
 // Получить токен из localStorage или cookies
 const getAuthToken = (): string | null => {

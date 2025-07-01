@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002/api/v1';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://itcook-backend-go-fodi999-8b0a955d.koyeb.app/api/v1';
+
+console.log('🔧 [API] API Base URL:', API_BASE_URL);
 
 // Создаем экземпляр axios с базовой конфигурацией
 const apiClient = axios.create({
