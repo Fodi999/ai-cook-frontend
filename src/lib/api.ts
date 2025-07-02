@@ -1,17 +1,74 @@
 import axios from 'axios';
+import { getCurrentAPIConfig, selectAvailableAPI, setCurrentAPIConfig, type APIConfig } from './apiConfig';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://itcook-backend-go-fodi999-8b0a955d.koyeb.app/api/v1';
+// Инициализация API конфигурации
+let apiConfig: APIConfig;
 
-console.log('🔧 [API] API Base URL:', API_BASE_URL);
+// Асинхронная инициализация API
+async function initializeAPI() {
+  try {
+    apiConfig = await selectAvailableAPI();
+    setCurrentAPIConfig(apiConfig);
+    
+    // Обновляем базовый URL для axios
+    apiClient.defaults.baseURL = apiConfig.baseURL;
+    
+    console.log('🔧 [API] Инициализирован:', {
+      name: apiConfig.name,
+      baseURL: apiConfig.baseURL,
+      isLocal: apiConfig.isLocal
+    });
+    
+    return apiConfig;
+  } catch (error) {
+    console.error('❌ [API] Ошибка инициализации:', error);
+    // Fallback на статическую конфигурацию
+    apiConfig = getCurrentAPIConfig();
+    return apiConfig;
+  }
+}
+
+// Получить текущую конфигурацию API
+export function getAPIConfig(): APIConfig {
+  return apiConfig || getCurrentAPIConfig();
+}
+
+// Переключить API конфигурацию
+export async function switchAPIConfig(configName: string): Promise<boolean> {
+  try {
+    const { getAPIConfig, checkAPIHealth } = await import('./apiConfig');
+    const newConfig = getAPIConfig(configName);
+    
+    const isAvailable = await checkAPIHealth(newConfig);
+    if (isAvailable) {
+      apiConfig = newConfig;
+      setCurrentAPIConfig(newConfig);
+      apiClient.defaults.baseURL = newConfig.baseURL;
+      console.log('✅ [API] Переключен на:', newConfig.name);
+      return true;
+    } else {
+      console.warn('⚠️ [API] Конфигурация недоступна:', newConfig.name);
+      return false;
+    }
+  } catch (error) {
+    console.error('❌ [API] Ошибка переключения:', error);
+    return false;
+  }
+}
 
 // Создаем экземпляр axios с базовой конфигурацией
 const apiClient = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: getCurrentAPIConfig().baseURL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
 });
+
+// Инициализируем API при загрузке модуля
+if (typeof window !== 'undefined') {
+  initializeAPI();
+}
 
 // Интерцептор для добавления токена аутентификации
 apiClient.interceptors.request.use(

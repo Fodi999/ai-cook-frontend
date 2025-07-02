@@ -6,6 +6,7 @@ import { ThemeProvider } from "../contexts/ThemeContext";
 import PWAInstallPrompt from "../components/PWAInstallPrompt";
 import ServiceWorkerRegister from "../components/ServiceWorkerRegister";
 import MobileBottomNavigation from "../components/MobileBottomNavigation";
+import APISwitcher from "../components/APISwitcher";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -74,6 +75,7 @@ export default function RootLayout({
               {children}
               <MobileBottomNavigation />
               <PWAInstallPrompt />
+              <APISwitcher />
             </div>
           </TolgeeWrapper>
         </ThemeProvider>

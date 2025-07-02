@@ -1,4 +1,4 @@
-const CACHE_NAME = 'it-cook-v1';
+const CACHE_NAME = 'it-cook-v2';
 const urlsToCache = [
   '/',
   '/profile',
@@ -6,8 +6,10 @@ const urlsToCache = [
   '/community',
   '/health-demo',
   '/manifest.json',
-  '/icon-192x192.png',
-  '/icon-512x512.png'
+  '/favicon.svg',
+  '/icon-144x144.svg',
+  '/icon-192x192.svg',
+  '/icon-512x512.svg'
 ];
 
 // Установка service worker
@@ -15,7 +17,23 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        return cache.addAll(urlsToCache);
+        console.log('Opened cache:', CACHE_NAME);
+        // Кэшируем файлы по одному для лучшей обработки ошибок
+        return Promise.allSettled(
+          urlsToCache.map(url => 
+            cache.add(url).catch(error => {
+              console.warn(`Failed to cache ${url}:`, error);
+              return null;
+            })
+          )
+        );
+      })
+      .then(() => {
+        console.log('Service worker installed successfully');
+        self.skipWaiting();
+      })
+      .catch(error => {
+        console.error('Service worker installation failed:', error);
       })
   );
 });
@@ -27,10 +45,14 @@ self.addEventListener('activate', (event) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (cacheName !== CACHE_NAME) {
+            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
+    }).then(() => {
+      console.log('Service worker activated successfully');
+      return self.clients.claim();
     })
   );
 });
@@ -51,8 +73,8 @@ self.addEventListener('fetch', (event) => {
 self.addEventListener('push', (event) => {
   const options = {
     body: event.data ? event.data.text() : 'Новое уведомление от IT Cook',
-    icon: '/icon-192x192.png',
-    badge: '/icon-72x72.png',
+    icon: '/icon-192x192.svg',
+    badge: '/icon-144x144.svg',
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
@@ -62,12 +84,12 @@ self.addEventListener('push', (event) => {
       {
         action: 'explore',
         title: 'Открыть приложение',
-        icon: '/icon-72x72.png'
+        icon: '/icon-144x144.svg'
       },
       {
         action: 'close',
         title: 'Закрыть',
-        icon: '/icon-72x72.png'
+        icon: '/icon-144x144.svg'
       }
     ]
   };
